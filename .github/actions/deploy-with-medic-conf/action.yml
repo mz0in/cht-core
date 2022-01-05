@@ -27,6 +27,6 @@ runs:
     shell: bash
     working-directory: ${{ inputs.directory }}
   - name: run medic-conf 
-    run: npx medic-conf --url=https://${{ inputs.username }}:${{ inputs.password }}@${{ inputs.hostname }}  upload-custom-translation--force
+    run: npx medic-conf --url=https://${{ inputs.username }}:${{ inputs.password }}@${{ inputs.hostname }}  upload-custom-translation --force
     shell: bash
     working-directory: ${{ inputs.directory }}
