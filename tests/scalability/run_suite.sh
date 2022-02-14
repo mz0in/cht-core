@@ -5,12 +5,13 @@ echo Set up github credentials for $GITHUB_ACTOR
 git config --global user.name $GITHUB_ACTOR
 
 git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
-git checkout -b jmeter-results-test-1
+#git pull
+#git checkout -b jmeter-results-test-1
 touch testing-ci.txt
 git add testing-ci.txt
 git commit -m'Adding jmeter restults'
-git remote set-url origin https://github.com/medic/cht-core.git
-git push --set-upstream origin jmeter-results-test-1
+#git remote set-url origin https://github.com/medic/cht-core.git
+git push #--set-upstream origin jmeter-results-test-1
 # cd cht-core/tests/scalability
 # export NODE_TLS_REJECT_UNAUTHORIZED=0
 
