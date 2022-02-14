@@ -2,6 +2,7 @@
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
 git config --global user.name $GITHUB_ACTOR
+git commit --amend --reset-author
 git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
 
 cd cht-core/tests/scalability
