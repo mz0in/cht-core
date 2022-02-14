@@ -38,13 +38,17 @@ unzip awscliv2.zip
 sudo ./aws/install
 # echo "Uploading logs and screenshots to ${S3_PATH}..."
 # /usr/local/bin/aws s3 cp ./report "$S3_PATH" --recursive
+git check -b jmeter-test3-${TAG_NAME}
 mv report/cli_run.jtl previous_results/${TAG_NAME}.jtl
-git add report/*
+
+git add previous_results/*
 git commit -m'Adding jmeter restults'
 zip -r report.zip report
 git add report.zip
 git commit -m'Adding zip report'
-git switch -c jmeter-test-${TAG_NAME}
-git push --set-upstream origin jmeter-test-${TAG_NAME}
-git request-pull HEAD~1 origin
+#git restore .
+
+
+git push --set-upstream origin jmeter-test3-${TAG_NAME}
+#git request-pull HEAD~1 origin
 echo "FINISHED! "
