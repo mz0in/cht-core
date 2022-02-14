@@ -6,8 +6,8 @@ git config --global user.name $GITHUB_ACTOR
 
 git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
 git checkout -b jmeter-results-test-1
-touch tests/testing-ci.txt
-git add tests/*
+touch testing-ci.txt
+git add testing-ci.txt
 git commit -m'Adding jmeter restults'
 git remote set-url origin https://github.com/medic/cht-core.git
 git push --set-upstream origin jmeter-results-test-1
