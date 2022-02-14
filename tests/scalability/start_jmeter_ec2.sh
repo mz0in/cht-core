@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 # Add MEDIC_URL to script executing on ec2 init
 echo $MEDIC_URL
 echo $GITHUB_RUN_ID
