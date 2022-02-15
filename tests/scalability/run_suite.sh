@@ -2,14 +2,14 @@
 set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
-sudo apt-get install hub
-git config --global user.name $GITHUB_ACTOR
-git config --global --add hub.token $GIT_TOKEN
-git config --global hub.protocol https
+sudo apt-get install gh
+# git config --global user.name $GITHUB_ACTOR
+# git config --global --add hub.token $GIT_TOKEN
+# git config --global hub.protocol https
 
 
 #git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
-hub clone medic/cht-core
+gh clone medic/cht-core
 cd cht-core
 # create a topic branch
 git checkout -b jmeter-feature
@@ -18,17 +18,18 @@ touch test-jmeter.txt
 git commit -am "done with feature"
 
 # It's time to fork the repo!
-hub fork --remote-name origin
-git remote add origin git@github.com:medic/cht-core.git
+#hub fork --remote-name origin
+#git remote add origin git@github.com:medic/cht-core.git
 
 # push the changes to your new remote
 git push origin jmeter-feature
 
 # check the CI status for this branch
-hub ci-status --verbose
+#hub ci-status --verbose
 
 # open a pull request for the branch you've just pushed
-hub pull-request
+#hub pull-request
+gh pr create
 
 # cd cht-core/tests/scalability
 # export NODE_TLS_REJECT_UNAUTHORIZED=0
