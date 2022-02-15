@@ -15,6 +15,7 @@ cd cht-core
 # git checkout -b jmeter-feature
 # make some changes...
 touch test-jmeter.txt
+git add test-jmeter.txt
 git commit -am "done with feature"
 
 # It's time to fork the repo!
