@@ -2,9 +2,10 @@
 set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
-sudo apt install hub
-git config --global hub.protocol https
+sudo apt-get install hub
 git config --global user.name $GITHUB_ACTOR
+git config --global hub.protocol https
+
 
 #git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
 hub clone medic/cht-core
