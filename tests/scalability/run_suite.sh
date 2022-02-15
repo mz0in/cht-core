@@ -8,8 +8,8 @@ sudo apt-get install gh
 # git config --global hub.protocol https
 
 
-#git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
-gh clone medic/cht-core
+git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
+
 cd cht-core
 # create a topic branch
 git checkout -b jmeter-feature
