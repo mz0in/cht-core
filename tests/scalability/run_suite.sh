@@ -3,7 +3,7 @@ set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
 sudo apt-get install gh
-# git config --global user.name $GITHUB_ACTOR
+git config --global user.name $GITHUB_ACTOR
 # git config --global --add hub.token $GIT_TOKEN
 # git config --global hub.protocol https
 
@@ -12,7 +12,7 @@ git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.g
 
 cd cht-core
 # create a topic branch
-git checkout -b jmeter-feature
+# git checkout -b jmeter-feature
 # make some changes...
 touch test-jmeter.txt
 git commit -am "done with feature"
@@ -20,9 +20,9 @@ git commit -am "done with feature"
 # It's time to fork the repo!
 #hub fork --remote-name origin
 #git remote add origin git@github.com:medic/cht-core.git
-
+git switch -c jmeter-feature
 # push the changes to your new remote
-git push origin jmeter-feature
+#git push origin jmeter-feature
 
 # check the CI status for this branch
 #hub ci-status --verbose
