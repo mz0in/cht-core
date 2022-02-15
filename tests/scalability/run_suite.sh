@@ -52,5 +52,5 @@ git commit -m'Adding zip report'
 
 
 git push --set-upstream origin jmeter-test3-${TAG_NAME}
-#git request-pull HEAD~1 origin
+git request-pull master origin
 echo "FINISHED! "
