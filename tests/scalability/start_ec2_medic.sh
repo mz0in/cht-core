@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 #Requires jq
 export NODE_TLS_REJECT_UNAUTHORIZED=0
 
@@ -28,8 +28,9 @@ url=https://$PublicDnsName
 echo "MEDIC_URL=$url" >> $GITHUB_ENV
 
 echo Begin Checking $url/api/info is up
+
 version=$(curl  $url/api/info -k  | jq .version -r)
-jq --version
+
 until [ "$version" = 0.1.0 ]
 do
 version=$(curl  $url/api/info -k  | jq .version -r)
