@@ -30,7 +30,7 @@ echo "MEDIC_URL=$url" >> $GITHUB_ENV
 echo Begin Checking $url/api/info is up
 version=$(curl  $url/api/info -k  | jq .version -r)
 
-until [ "$version" = "0.1.0" ]
+until [ $version = 0.1.0 ]
 do
 version=$(curl  $url/api/info -k  | jq .version -r)
 sleep 10
