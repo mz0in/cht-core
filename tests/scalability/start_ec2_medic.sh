@@ -35,8 +35,8 @@ do
 version=$(curl  $url/api/info -k  | jq .version -r)
 sleep 10
 echo Sleeping again. Version is $version
-echo
-echo
+# echo
+# echo
 done
 
 echo Api Is up
