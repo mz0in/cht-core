@@ -5,6 +5,8 @@ echo Cloning cht-core to /cht-core
 sudo apt-get install gh
 git config --global user.name $GITHUB_ACTOR
 gh auth login --with-token $GITHUB_TOKEN
+git config --global 'credential.https://github.com.helper' ''
+git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
 
 gh auth status
 # git config --global --add hub.token $GIT_TOKEN
