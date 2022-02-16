@@ -3,8 +3,9 @@ set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
 sudo apt-get install gh
-#gh auth login --with-token $GITHUB_TOKEN
-#git config --global user.name $GITHUB_ACTOR
+git config --global user.name $GITHUB_ACTOR
+gh auth login --with-token $GITHUB_TOKEN
+
 gh auth status
 # git config --global --add hub.token $GIT_TOKEN
 # git config --global hub.protocol https
