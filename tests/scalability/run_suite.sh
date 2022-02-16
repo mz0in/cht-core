@@ -2,19 +2,7 @@
 set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
-sudo apt-get install gh
-git config --global user.name $GITHUB_ACTOR
-gh auth login --with-token $GITHUB_TOKEN
-git config --global 'credential.https://github.com.helper' ''
-git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
-
-gh auth status
-# git config --global --add hub.token $GIT_TOKEN
-# git config --global hub.protocol https
-gh repo clone medic/cht-core
-
-
-#git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
+git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
 
 cd cht-core
 # create a topic branch
@@ -29,14 +17,14 @@ git commit -am "done with feature"
 #git remote add origin git@github.com:medic/cht-core.git
 git switch -c jmeter-feature
 # push the changes to your new remote
-#git push origin jmeter-feature
+git push --set-upstream origin jmeter-feature
 
 # check the CI status for this branch
 #hub ci-status --verbose
 
 # open a pull request for the branch you've just pushed
 #hub pull-request
-gh pr create
+#gh pr create
 
 # cd cht-core/tests/scalability
 # export NODE_TLS_REJECT_UNAUTHORIZED=0
