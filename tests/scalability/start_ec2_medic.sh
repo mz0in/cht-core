@@ -42,101 +42,101 @@ done
 
 echo Api Is up
 
-MEDIC_CONF_URL='https://medic:medicScalability@'$PublicDnsName
+# MEDIC_CONF_URL='https://medic:medicScalability@'$PublicDnsName
 
-cp -r ./csv ../../config/standard/
+# cp -r ./csv ../../config/standard/
 
-cd ../../config/standard/
+# cd ../../config/standard/
 
-echo installing pip
-sudo apt-get -q install python-pip -y
+# echo installing pip
+# sudo apt-get -q install python-pip -y
 
-echo installing pyxform
-sudo python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic -q
+# echo installing pyxform
+# sudo python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic -q
 
-echo installing medic-conf
-npm install medic-conf
+# echo installing medic-conf
+# npm install medic-conf
 
-sleep 10
-# echo Uploading settings and seeding data
-echo medic-conf url is $MEDIC_CONF_URL
-$(npm bin)/medic-conf --url="$MEDIC_CONF_URL" --force --accept-self-signed-certs upload-app-settings \
-    convert-app-forms \
-    convert-collect-forms \
-    convert-contact-forms \
-    upload-app-forms \
-    upload-collect-forms \
-    upload-contact-forms \
-    upload-resources \
-    upload-custom-translations  \
-    csv-to-docs \
-    upload-docs \
-    create-users \
+# sleep 10
+# # echo Uploading settings and seeding data
+# echo medic-conf url is $MEDIC_CONF_URL
+# $(npm bin)/medic-conf --url="$MEDIC_CONF_URL" --force --accept-self-signed-certs upload-app-settings \
+#     convert-app-forms \
+#     convert-collect-forms \
+#     convert-contact-forms \
+#     upload-app-forms \
+#     upload-collect-forms \
+#     upload-contact-forms \
+#     upload-resources \
+#     upload-custom-translations  \
+#     csv-to-docs \
+#     upload-docs \
+#     create-users \
 
 
-echo "Generating attachments for all reports"
-cd ../../scripts/generate-form-attachments/
+# echo "Generating attachments for all reports"
+# cd ../../scripts/generate-form-attachments/
 
-npm ci
-COUCH_URL="$MEDIC_CONF_URL/medic" npm run view
+# npm ci
+# COUCH_URL="$MEDIC_CONF_URL/medic" npm run view
 
-echo Sentinel is processing data. Sleeping immediately for 120 seconds
-sleep 120
+# echo Sentinel is processing data. Sleeping immediately for 120 seconds
+# sleep 120
 
-proc_seq=$(curl $MEDIC_CONF_URL/medic-sentinel/_local/sentinel-meta-data -s -k | jq .processed_seq -r)
-current_leng=$(curl $MEDIC_CONF_URL/medic/_changes?since=$proc_seq -s -k | jq '.results | length')
+# proc_seq=$(curl $MEDIC_CONF_URL/medic-sentinel/_local/sentinel-meta-data -s -k | jq .processed_seq -r)
+# current_leng=$(curl $MEDIC_CONF_URL/medic/_changes?since=$proc_seq -s -k | jq '.results | length')
 
-until [ "$current_leng" -lt "50" ]
-do
-updated_proc_seq=$(curl $MEDIC_CONF_URL/medic-sentinel/_local/sentinel-meta-data -s -k | jq .processed_seq -r)
-current_leng=$(curl $MEDIC_CONF_URL/medic/_changes?since=$updated_proc_seq -s -k | jq '.results | length')
-echo New length is $current_leng
-echo sleeping again for 120
-sleep 120
-echo
-echo
-done
+# until [ "$current_leng" -lt "50" ]
+# do
+# updated_proc_seq=$(curl $MEDIC_CONF_URL/medic-sentinel/_local/sentinel-meta-data -s -k | jq .processed_seq -r)
+# current_leng=$(curl $MEDIC_CONF_URL/medic/_changes?since=$updated_proc_seq -s -k | jq '.results | length')
+# echo New length is $current_leng
+# echo sleeping again for 120
+# sleep 120
+# echo
+# echo
+# done
 
-echo Sentinel has caught up.
+# echo Sentinel has caught up.
 
-ddocs=(medic medic-admin medic-client medic-conflicts medic-scripts medic-sms)
+# ddocs=(medic medic-admin medic-client medic-conflicts medic-scripts medic-sms)
 
-echo Getting pre stage sequence numbers
-pre_update_seqs=()
-echo medic-update-seq $(curl $MEDIC_CONF_URL/medic/ -s -k | jq .update_seq)
-for ddoc in ${ddocs[@]}; do
-echo $ddoc pre stage value $(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r)
-pre_update_seqs+=($(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r))
-done
+# echo Getting pre stage sequence numbers
+# pre_update_seqs=()
+# echo medic-update-seq $(curl $MEDIC_CONF_URL/medic/ -s -k | jq .update_seq)
+# for ddoc in ${ddocs[@]}; do
+# echo $ddoc pre stage value $(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r)
+# pre_update_seqs+=($(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r))
+# done
 
-echo staging updates
-curl $MEDIC_CONF_URL/api/v1/upgrade/stage -k -X POST -H "Content-Type: application/json" -d '{"build":{"namespace":"medic","application":"medic","version":"'$1'"}}'
+# echo staging updates
+# curl $MEDIC_CONF_URL/api/v1/upgrade/stage -k -X POST -H "Content-Type: application/json" -d '{"build":{"namespace":"medic","application":"medic","version":"'$1'"}}'
 
-staged=$(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
-echo $(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
-until [ "$staged" == "true" ]
-do
-staged=$(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
-sleep 60
-echo "waiting for staging to complete"
-done
+# staged=$(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
+# echo $(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
+# until [ "$staged" == "true" ]
+# do
+# staged=$(curl $MEDIC_CONF_URL/medic/horti-upgrade -s -k | jq .staging_complete -r)
+# sleep 60
+# echo "waiting for staging to complete"
+# done
 
-post_stage=()
-echo medic-update-seq $(curl $MEDIC_CONF_URL/medic/ -s -k | jq .update_seq)
-for ddoc in ${ddocs[@]}; do
-echo $ddoc post stage value $(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r)
-post_stage+=($(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r))
-done
+# post_stage=()
+# echo medic-update-seq $(curl $MEDIC_CONF_URL/medic/ -s -k | jq .update_seq)
+# for ddoc in ${ddocs[@]}; do
+# echo $ddoc post stage value $(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r)
+# post_stage+=($(curl $MEDIC_CONF_URL/medic/_design/$ddoc/_info -s -k | jq .view_index.update_seq -r))
+# done
 
-echo Checking post stage sequences to pre stage
-for i in ${!pre_update_seqs[@]}; do
-if ! [ ${post_stage[$i]} -ge ${pre_update_seqs[$i]} ]
-then
-echo "The sequence for ${ddocs[$i]} did not get updated. It should have been warmed."
-echo "ending run"
-exit 1
-fi
-done
+# echo Checking post stage sequences to pre stage
+# for i in ${!pre_update_seqs[@]}; do
+# if ! [ ${post_stage[$i]} -ge ${pre_update_seqs[$i]} ]
+# then
+# echo "The sequence for ${ddocs[$i]} did not get updated. It should have been warmed."
+# echo "ending run"
+# exit 1
+# fi
+# done
 
-echo Sequence numbers were greater. Completing upgrade
-curl $MEDIC_CONF_URL/api/v1/upgrade/complete -k -X POST
+# echo Sequence numbers were greater. Completing upgrade
+# curl $MEDIC_CONF_URL/api/v1/upgrade/complete -k -X POST
