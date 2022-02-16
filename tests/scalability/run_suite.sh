@@ -3,13 +3,15 @@ set -e
 sudo shutdown -P +60
 echo Cloning cht-core to /cht-core
 sudo apt-get install gh
-gh auth login
-git config --global user.name $GITHUB_ACTOR
+#gh auth login --with-token $GITHUB_TOKEN
+#git config --global user.name $GITHUB_ACTOR
+gh auth status
 # git config --global --add hub.token $GIT_TOKEN
 # git config --global hub.protocol https
+gh repo clone medic/cht-core
 
 
-git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
+#git clone --single-branch --branch $TAG_NAME https://github.com/medic/cht-core.git;
 
 cd cht-core
 # create a topic branch
