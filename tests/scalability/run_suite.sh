@@ -21,7 +21,7 @@ node -p "const fs = require('fs');var path = './config.json';var config = JSON.s
 echo "npm install for jmeter suite"
 npm install
 echo "jmeter install"
-wget https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz -O ./apache-jmeter.tgz
+wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.3.tgz -O ./apache-jmeter.tgz
 mkdir ./jmeter
 tar -xf apache-jmeter.tgz -C ./jmeter --strip-components=1
 echo "Installing Plugins"
