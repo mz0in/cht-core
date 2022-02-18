@@ -39,4 +39,4 @@ unzip awscliv2.zip
 sudo ./aws/install
 echo "Uploading logs and screenshots to ${S3_PATH}..."
 /usr/local/bin/aws s3 cp ./report "$S3_PATH" --recursive
-echo "FINISHED! "
+echo "FINISHED!"
