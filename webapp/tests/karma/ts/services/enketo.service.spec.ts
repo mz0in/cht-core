@@ -1452,34 +1452,34 @@ describe('Enketo service', () => {
           .withArgs('input[type=file][name="/my-form/my_file"]')
           .returns([{ files: [{ type: 'image', foo: 'bar' }] }]);
 
-      form.getDataStr.returns(content);
-      UserContact.resolves({ _id: 'my-user', phone: '8989' });
-      dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
-      return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
-        expect(AddAttachment.callCount).to.equal(2);
-        form.validate.resolves(true);
-        const content = loadXML('file-field');
-
-        form.getDataStr.returns(content);
-        dbGetAttachment.resolves('<form/>');
         UserContact.resolves({ _id: 'my-user', phone: '8989' });
-        dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
-        // @ts-ignore
-        const saveDocsSpy = sinon.spy(EnketoService.prototype, 'saveDocs');
+        dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
+        return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
+          expect(AddAttachment.callCount).to.equal(2);
+          form.validate.resolves(true);
+          const content = loadXML('file-field');
 
-        return service
-          .save('my-form', form, () => Promise.resolve(true))
-          .then(() => {
-            expect(AddAttachment.calledTwice);
-            expect(saveDocsSpy.calledOnce);
+          form.getDataStr.returns(content);
+          dbGetAttachment.resolves('<form/>');
+          UserContact.resolves({ _id: 'my-user', phone: '8989' });
+          dbBulkDocs.callsFake(docs => Promise.resolve([ { ok: true, id: docs[0]._id, rev: '1-abc' } ]));
+          // @ts-ignore
+          const saveDocsSpy = sinon.spy(EnketoService.prototype, 'saveDocs');
 
-            expect(AddAttachment.args[0][1]).to.equal('user-file/my-form/my_file');
-            expect(AddAttachment.args[0][2]).to.deep.equal({ type: 'image', foo: 'bar' });
-            expect(AddAttachment.args[0][3]).to.equal('image');
+          return service
+            .save('my-form', form, () => Promise.resolve(true))
+            .then(() => {
+              expect(AddAttachment.calledTwice);
+              expect(saveDocsSpy.calledOnce);
 
-            expect(AddAttachment.args[1][1]).to.equal('content');
-            expect(globalActions.setSnackbarContent.notCalled);
-          });
+              expect(AddAttachment.args[0][1]).to.equal('user-file/my-form/my_file');
+              expect(AddAttachment.args[0][2]).to.deep.equal({ type: 'image', foo: 'bar' });
+              expect(AddAttachment.args[0][3]).to.equal('image');
+
+              expect(AddAttachment.args[1][1]).to.equal('content');
+              expect(globalActions.setSnackbarContent.notCalled);
+            });
+        });
       });
 
       it('should throw exception if attachments are big', () => {
