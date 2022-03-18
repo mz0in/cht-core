@@ -1538,12 +1538,6 @@ describe('Enketo service', () => {
         dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
         return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
           expect(AddAttachment.callCount).to.equal(2);
-          form.getDataStr.returns(content);
-          dbGetAttachment.resolves('<form/>');
-          UserContact.resolves({ _id: 'my-user', phone: '8989' });
-          dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
-          return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
-            expect(AddAttachment.callCount).to.equal(2);
 
             expect(AddAttachment.args[0][1]).to.equal('user-file/my-form/my_file');
             expect(AddAttachment.args[0][2]).to.deep.equal('some image data');
@@ -1551,7 +1545,6 @@ describe('Enketo service', () => {
 
             expect(AddAttachment.args[1][1]).to.equal('content');
             expect(AddAttachment.args[1][2]).to.equal(expected);
-          });
         });
       });
 
@@ -1576,24 +1569,17 @@ describe('Enketo service', () => {
         dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
         return service.save('my-form-internal-id', form, () => Promise.resolve(true)).then(() => {
           expect(AddAttachment.callCount).to.equal(3);
-          form.getDataStr.returns(content);
-          dbGetAttachment.resolves('<form/>');
-          UserContact.resolves({ _id: 'my-user', phone: '8989' });
-          dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
-          return service.save('my-form-internal-id', form, () => Promise.resolve(true)).then(() => {
-            expect(AddAttachment.callCount).to.equal(3);
 
-            expect(AddAttachment.args[0][1]).to.equal('user-file/my-form-internal-id/my_file');
-            expect(AddAttachment.args[0][2]).to.deep.equal({ type: 'image', foo: 'bar' });
-            expect(AddAttachment.args[0][3]).to.equal('image');
+          expect(AddAttachment.args[0][1]).to.equal('user-file/my-form-internal-id/my_file');
+          expect(AddAttachment.args[0][2]).to.deep.equal({ type: 'image', foo: 'bar' });
+          expect(AddAttachment.args[0][3]).to.equal('image');
 
-            expect(AddAttachment.args[1][1])
-              .to.equal('user-file/my-form-internal-id/sub_element/sub_sub_element/other_file');
-            expect(AddAttachment.args[1][2]).to.deep.equal({ type: 'mytype', foo: 'baz' });
-            expect(AddAttachment.args[1][3]).to.equal('mytype');
+          expect(AddAttachment.args[1][1])
+            .to.equal('user-file/my-form-internal-id/sub_element/sub_sub_element/other_file');
+          expect(AddAttachment.args[1][2]).to.deep.equal({ type: 'mytype', foo: 'baz' });
+          expect(AddAttachment.args[1][3]).to.equal('mytype');
 
-            expect(AddAttachment.args[2][1]).to.equal('content');
-          });
+          expect(AddAttachment.args[2][1]).to.equal('content');
         });
       });
 
