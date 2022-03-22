@@ -32,6 +32,7 @@
     "bikram-sambat-bootstrap": "^1.5.0",
     "bootstrap": "^3.4.1",
     "bootstrap-daterangepicker": "^2.1.30",
+    "bowser": "^2.11.0",
     "enketo-core": "4.41.6",
     "eurodigit": "^3.1.3",
     "font-awesome": "^4.7.0",
@@ -65,5 +66,8 @@
     "**/pouchdb-browser": "^7.2.2",
     "**/moment": "^2.26.2"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "volta": {
+    "node": "12.22.7"
+  }
 }
