@@ -1539,12 +1539,12 @@ describe('Enketo service', () => {
         return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
           expect(AddAttachment.callCount).to.equal(2);
 
-            expect(AddAttachment.args[0][1]).to.equal('user-file/my-form/my_file');
-            expect(AddAttachment.args[0][2]).to.deep.equal('some image data');
-            expect(AddAttachment.args[0][3]).to.equal('image/png');
+          expect(AddAttachment.args[0][1]).to.equal('user-file/my-form/my_file');
+          expect(AddAttachment.args[0][2]).to.deep.equal('some image data');
+          expect(AddAttachment.args[0][3]).to.equal('image/png');
 
-            expect(AddAttachment.args[1][1]).to.equal('content');
-            expect(AddAttachment.args[1][2]).to.equal(expected);
+          expect(AddAttachment.args[1][1]).to.equal('content');
+          expect(AddAttachment.args[1][2]).to.equal(expected);
         });
       });
 
