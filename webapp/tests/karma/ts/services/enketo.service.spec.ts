@@ -1452,6 +1452,11 @@ describe('Enketo service', () => {
           .withArgs('input[type=file][name="/my-form/my_file"]')
           .returns([{ files: [{ type: 'image', foo: 'bar' }] }]);
 
+        
+        form.validate.resolves(true);
+        const content = loadXML('file-field');
+        form.getDataStr.returns(content);
+
         UserContact.resolves({ _id: 'my-user', phone: '8989' });
         dbBulkDocs.callsFake(docs => Promise.resolve([{ ok: true, id: docs[0]._id, rev: '1-abc' }]));
         return service.save('my-form', form, () => Promise.resolve(true)).then(() => {
